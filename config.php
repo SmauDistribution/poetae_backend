@@ -12,6 +12,7 @@ class Connect extends PDO
 
 class Options {
     CONST CROSS_ORIGIN = 'Access-Control-Allow-Origin: *';
+    CONST STATIC_FOLDER = '../../Risorse/';
 }
 
 ?>
