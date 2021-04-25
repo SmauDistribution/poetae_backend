@@ -1,7 +1,7 @@
 <?php
 require_once("config.php");
 /*
-    Ritorna solo l' immagine di tutti i profili
+    Ritorna solo l' immagine e il nome e cognome di tutti i profili
 */
 
 class API {
@@ -21,6 +21,8 @@ class API {
             if($format != "") {
                 $pictures[$out["Id"]] = array(
                     "Id" => $out["Id"],
+                    "Nome" => $out["Nome"],
+                    "Cognome" => $out["Cognome"],
                     "Immagine" => $path
                 );
             }
