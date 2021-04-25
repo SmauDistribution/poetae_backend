@@ -6,22 +6,6 @@ require_once("config.php");
 
 class API {
 
-    private function CheckFile($filename) {
-        $format = "";
-        if(file_exists(Options::STATIC_FOLDER.$filename.".jpeg"))
-                $format = ".jpeg";
-
-        if(file_exists(Options::STATIC_FOLDER.$filename.".jpg")) {
-            $format = ".jpg";
-        }
-
-        if(file_exists(Options::STATIC_FOLDER.$filename.".png")) {
-            $format = ".png";
-        }
-
-        return $format;
-    }
-
     function Get() {
         $db = new Connect;
         $pictures = array();
@@ -30,17 +14,14 @@ class API {
 
         while($out = $data->fetch(PDO::FETCH_ASSOC)) {
             $fullname = $out["Nome"].$out["Cognome"];
-            $filename = "Profili/".strtolower($fullname);
-            $format = "";
-
-            //Trova se il file esiste, in caso affermativo assegna anche il suo formato
-            $format = $this->CheckFile($filename);
-            $path = Options::STATIC_FOLDER.$filename.$format;
+            $pic = new Pictures();
+            $format = $pic->CheckFile($fullname);
+            $path = $pic->GetPathFor($fullname);
 
             if($format != "") {
                 $pictures[$out["Id"]] = array(
                     "Id" => $out["Id"],
-                    "Picture" => $path
+                    "Immagine" => $path
                 );
             }
         }

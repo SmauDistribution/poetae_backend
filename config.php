@@ -12,7 +12,40 @@ class Connect extends PDO
 
 class Options {
     CONST CROSS_ORIGIN = 'Access-Control-Allow-Origin: *';
-    CONST STATIC_FOLDER = '../../Risorse/';
+    CONST STATIC_FOLDER = 'C:/Users/smaud/Documents/Scuola/Esame/Risorse/';
+}
+
+class Pictures {
+    function CheckFile($fullname) {
+        $filename = $this->GetFileName($fullname);
+        $format = "";
+        if(file_exists(Options::STATIC_FOLDER.$filename.".jpeg"))
+            $format = ".jpeg";
+
+        if(file_exists(Options::STATIC_FOLDER.$filename.".jpg")) {
+            $format = ".jpg";
+        }
+
+        if(file_exists(Options::STATIC_FOLDER.$filename.".png")) {
+            $format = ".png";
+        }
+
+        return $format;
+    }
+
+    function GetFileName($fullname) {
+        return "Profili/".strtolower($fullname);
+    }
+
+    function GetPathFor($fullname) {
+        $filename = $this->GetFileName($fullname);
+        $format = "";
+
+        //Trova se il file esiste, in caso affermativo assegna anche il suo formato
+        $format = $this->CheckFile($fullname);
+        $path = Options::STATIC_FOLDER.$filename.$format;
+        return $path;
+    }
 }
 
 ?>

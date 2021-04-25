@@ -18,12 +18,15 @@ class API {
 
             $name = strtolower($out["Nome"]);
             $surname = strtolower($out["Cognome"]);
+            $picture = new Pictures();
+            $path = $picture->GetPathFor($out["Nome"].$out["Cognome"]);
 
             if(strpos($name, $content) === 0 || strpos($surname, $content) === 0) {
                 $records[$out["Id"]] = array(
                     "Id" => $out["Id"],
                     "Nome" => $out["Nome"],
-                    "Cognome" => $out["Cognome"]
+                    "Cognome" => $out["Cognome"],
+                    "Immagine" => $path
                 );
             }
         }
