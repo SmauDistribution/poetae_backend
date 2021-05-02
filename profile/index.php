@@ -19,7 +19,7 @@ class API {
             $name = strtolower($out["Nome"]);
             $surname = strtolower($out["Cognome"]);
             $picture = new Pictures();
-            $path = $picture->GetPathFor($out["Nome"].$out["Cognome"]);
+            $path = $picture->GetPathFor(($out["Nome"].$out["Cognome"]));
 
             $records[$out["Id"]] = array(
                 "Id" => $out["Id"],
@@ -39,6 +39,7 @@ class API {
 
 $api = new API;
 header(Options::CROSS_ORIGIN);
+header(Options::CROSS_HEADERS);
 header('Content-Type: application/json');
 echo $api->Get();
 
