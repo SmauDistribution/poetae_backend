@@ -13,7 +13,7 @@ class Connect extends PDO
 class Options {
     CONST CROSS_ORIGIN = 'Access-Control-Allow-Origin: *';
     CONST CROSS_HEADERS = 'Access-Control-Allow-Headers: *';
-    CONST STATIC_PATH = '../../';
+    CONST STATIC_PATH = 'C:/Users/smaud/Documents/Scuola/Esame/';
     CONST STATIC_FOLDER = 'Risorse/';
     CONST HOSTNAME = 'http://localhost/';
 }
