@@ -9,7 +9,7 @@ class API {
     function Get() {
         $db = new Connect;
         $records = array();
-        $year = $_GET["date"];
+        $year = apache_request_headers()["year"];
 
         $data = $db->prepare("SELECT * FROM Profilo WHERE YEAR(Nascita) = :year");
         $data->execute(["year" => $year]);

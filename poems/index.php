@@ -59,7 +59,7 @@ class API {
             $records = $this->GetPoems($author, $db);
         }
         else {
-            $id = $_GET['id'];
+            $id = apache_request_headers()["id"];
             $records = $this->GetProfile($id, $db);
         }
 

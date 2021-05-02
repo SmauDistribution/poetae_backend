@@ -9,7 +9,7 @@ class API {
     function Get() {
         $db = new Connect;
         $records = array();
-        $id = $_GET["id"];
+        $id = apache_request_headers()["id"];
 
         $data = $db->prepare("SELECT * FROM Profilo WHERE Id = :id");
         $data->execute(["id" => $id]);
