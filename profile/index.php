@@ -5,6 +5,20 @@ require_once("../config.php");
 */
 
 class API {
+    private function GetPaths($db, $id) {
+        $percorsi = array();
+        $data = $db->prepare("SELECT Percorso.Id, Descrizione FROM Percorsi, Percorso WHERE Percorsi.Profilo = :id AND Percorsi.Percorso = Percorso.Id");
+        $data->execute(["id" => $id]);
+
+        while($out = $data->fetch(PDO::FETCH_ASSOC)) {
+            $percorsi[$out["Id"]] = array(
+                "Id" => $out["Id"],
+                "Descrizione" => $out["Descrizione"]
+            );
+        }
+
+        return $percorsi;
+    }
 
     function Get() {
         $db = new Connect;
@@ -20,6 +34,7 @@ class API {
             $surname = strtolower($out["Cognome"]);
             $picture = new Pictures();
             $path = $picture->GetPathFor(($out["Nome"].$out["Cognome"]));
+            $percorsi = $this->GetPaths($db, $id);
 
             $records[$out["Id"]] = array(
                 "Id" => $out["Id"],
@@ -29,7 +44,8 @@ class API {
                 "Nascita" => $out["Nascita"],
                 "Morte" => $out["Morte"],
                 "LuogoNascita" => $out["LuogoNascita"],
-                "Immagine" => $path
+                "Immagine" => $path,
+                "Percorsi" => $percorsi
             );
         }
 
