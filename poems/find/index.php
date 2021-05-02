@@ -38,6 +38,7 @@ class API {
 
 $api = new API;
 header(Options::CROSS_ORIGIN);
+header(Options::CROSS_HEADERS);
 header('Content-Type: application/json');
 echo $api->Get();
 
