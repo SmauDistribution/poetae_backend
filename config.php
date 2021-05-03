@@ -81,7 +81,7 @@ class User {
 
         while($out = $data->fetch(PDO::FETCH_ASSOC)) {
             if(md5($out["Username"]) == $user && $out["Password"] == $pass) {
-                $res[$out["Id"]] = array(
+                $res = array(
                     "Id" => $out["Id"],
                     "Username" => $out["Username"]
                 );
