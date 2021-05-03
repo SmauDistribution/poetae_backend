@@ -53,4 +53,44 @@ class Pictures {
     }
 }
 
+class User {
+    private ?Connect $db;
+
+    public function __construct() {
+        $this->db = new Connect;
+    }
+
+    function Auth($user, $pass) {
+        $hash = md5($pass);
+        $data = $this->db->prepare("SELECT Password FROM Utente WHERE Username = :user AND Password = :pass");
+        $data->execute(["user" => $user, "pass" => $hash]);
+
+        $out = $data->fetch(PDO::FETCH_ASSOC);
+        if($out == null)
+            return false;
+
+        return true;
+    }
+
+    function AuthBy($token) {
+        $user = explode(".", $token)[0];
+        $pass = explode(".", $token)[1];
+        $data = $this->db->prepare("SELECT Username, Password FROM Utente WHERE Password = :pass");
+        $data->execute(["pass" => $hash]);
+
+        while($out = $data->fetch(PDO::FETCH_ASSOC)) {
+            if(md5($out["Username"]) == $user && md5($out["Password"]) == $pass)
+                return true;
+        }
+
+        return false;
+    }
+
+    function GetToken($user, $pass) {
+        $hash = md5($pass);
+        $userhash = md5($user);
+        return $userhash.".".$hash;
+    }
+}
+
 ?>

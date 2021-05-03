@@ -6,23 +6,17 @@ require_once("../config.php");
 
 class API {
     function Get() {
-        $db = new Connect;
         $res = array();
-        $user = strtolower(apache_request_headers()["Username"]);
-        $pass = strtolower(apache_request_headers()["Password"]);
-
-        $hash = md5($pass);
-        $data = $db->prepare("SELECT Password FROM Utente WHERE Username = :user AND Password = :pass");
-        $data->execute(["user" => $user, "pass" => $hash]);
-
-        $out = $data->fetch(PDO::FETCH_ASSOC);
+        $username = strtolower(apache_request_headers()["Username"]);
+        $password = strtolower(apache_request_headers()["Password"]);
         
-        if($out == null) {
+        $user = new User();
+        if($user->Auth($username, $password) == false) {
             http_response_code(403);
             return "";
         }
 
-        $res["Token"] = $out["Password"];
+        $res["Token"] = $user->GetToken($username, $password);
         return json_encode($res);
     }
 }
