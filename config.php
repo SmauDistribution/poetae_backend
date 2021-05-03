@@ -72,11 +72,31 @@ class User {
         return true;
     }
 
+    function GetUser($token) {
+        $user = explode(".", $token)[0];
+        $pass = explode(".", $token)[1];
+        $res = array();
+        $data = $this->db->prepare("SELECT * FROM Utente WHERE Password = :pass");
+        $data->execute(["pass" => $pass]);
+
+        while($out = $data->fetch(PDO::FETCH_ASSOC)) {
+            if(md5($out["Username"]) == $user && $out["Password"] == $pass) {
+                $res[$out["Id"]] = array(
+                    "Id" => $out["Id"],
+                    "Username" => $out["Username"]
+                );
+                break;
+            }
+        }
+
+        return $res;
+    }
+
     function AuthBy($token) {
         $user = explode(".", $token)[0];
         $pass = explode(".", $token)[1];
         $data = $this->db->prepare("SELECT Username, Password FROM Utente WHERE Password = :pass");
-        $data->execute(["pass" => $hash]);
+        $data->execute(["pass" => $pass]);
 
         while($out = $data->fetch(PDO::FETCH_ASSOC)) {
             if(md5($out["Username"]) == $user && $out["Password"] == $pass)
