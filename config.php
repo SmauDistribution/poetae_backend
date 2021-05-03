@@ -79,7 +79,7 @@ class User {
         $data->execute(["pass" => $hash]);
 
         while($out = $data->fetch(PDO::FETCH_ASSOC)) {
-            if(md5($out["Username"]) == $user && md5($out["Password"]) == $pass)
+            if(md5($out["Username"]) == $user && $out["Password"] == $pass)
                 return true;
         }
 
