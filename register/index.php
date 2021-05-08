@@ -20,11 +20,12 @@ class API {
 
 $api = new API;
 header(Options::CROSS_ORIGIN);
+header(Options::CROSS_HEADERS);
 header('Content-Type: application/json');
 
 if($_SERVER["REQUEST_METHOD"] === "POST")
     echo $api->Post();
-else
+else if($_SERVER["REQUEST_METHOD"] !== "OPTIONS")
     http_response_code(405);
 
 ?>
