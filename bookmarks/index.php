@@ -14,13 +14,14 @@ class API {
         $user = new User();
         $id = $user->GetUser($token)["Id"];
         
-        $data = $db->prepare("SELECT Poesia.Id, Titolo FROM Segnalibri, Utente, Poesia WHERE Utente = :id AND Utente.Id = :userId AND Poesia.Id = Segnalibri.Poesia");
+        $data = $db->prepare("SELECT Poesia.Id, Titolo, Descrizione FROM Segnalibri, Utente, Poesia WHERE Utente = :id AND Utente.Id = :userId AND Poesia.Id = Segnalibri.Poesia");
         $data->execute(["id" => $id, "userId" => $id]);
 
         while($out = $data->fetch(PDO::FETCH_ASSOC)) {
             $res[$out["Id"]] = array(
                 "Id" => $out["Id"],
-                "Titolo" => $out["Titolo"]
+                "Titolo" => $out["Titolo"],
+                "Descrizione" => $out["Descrizione"]
             );
         }
 
