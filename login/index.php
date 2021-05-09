@@ -16,7 +16,9 @@ class API {
             return "";
         }
 
-        $res["Token"] = $user->GetToken($username, $password);
+        $token = $user->GetToken($username, $password);
+        $res["Token"] = $token;
+        $res["Username"] = $user->GetUser($token)["Username"];
         return json_encode($res);
     }
 }
