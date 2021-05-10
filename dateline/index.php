@@ -6,6 +6,28 @@ require_once("../config.php");
 
 class API {
 
+    private function GetProfilesBy($year, $db) {
+        $records = array();
+
+        $data = $db->prepare("SELECT * FROM Profilo WHERE YEAR(Nascita) = :year");
+        $data->execute(["year" => $year]);
+
+        while($out = $data->fetch(PDO::FETCH_ASSOC)) {
+
+            $name = strtolower($out["Nome"]);
+            $surname = strtolower($out["Cognome"]);
+            $picture = new Pictures();
+            $path = $picture->GetPathFor($out["Nome"].$out["Cognome"]);
+
+            $records[$out["Id"]] = array(
+                "Id" => $out["Id"],
+                "Immagine" => $path
+            );
+        }
+
+        return $records;
+    }
+
     function Get() {
         $db = new Connect;
         $records = array();
@@ -15,10 +37,13 @@ class API {
 
         while($out = $data->fetch(PDO::FETCH_ASSOC)) {
 
+            $profiles = $this->GetProfilesBy($out["Nascita"], $db);
+
             if($out["Nascita"] != null) {
                 $records[$out["Id"]] = array(
                     "Id" => $out["Id"],
-                    "Anno" => $out["Nascita"]
+                    "Anno" => $out["Nascita"],
+                    "Profiles" => $profiles,
                 );
             }
         }
