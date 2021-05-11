@@ -32,17 +32,17 @@ class API {
         $db = new Connect;
         $records = array();
 
-        $data = $db->prepare("SELECT DISTINCT YEAR(Nascita) AS 'Nascita', Id FROM Profilo ORDER BY Nascita");
+        $data = $db->prepare("SELECT DISTINCT YEAR(Nascita) AS 'Anno', Id FROM Profilo GROUP BY Anno ORDER BY Anno");
         $data->execute();
 
         while($out = $data->fetch(PDO::FETCH_ASSOC)) {
 
-            $profiles = $this->GetProfilesBy($out["Nascita"], $db);
+            $profiles = $this->GetProfilesBy($out["Anno"], $db);
 
-            if($out["Nascita"] != null) {
+            if($out["Anno"] != null) {
                 $records[$out["Id"]] = array(
                     "Id" => $out["Id"],
-                    "Anno" => $out["Nascita"],
+                    "Anno" => $out["Anno"],
                     "Profiles" => $profiles,
                 );
             }
