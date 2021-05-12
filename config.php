@@ -57,7 +57,7 @@ class Pictures {
         //Trova se il file esiste, in caso affermativo assegna anche il suo formato
         $format = $this->CheckFile($fullname);
         $path = Options::HOSTNAME.Options::STATIC_FOLDER.$filename.$format;
-        return $path;
+        return $format === "" ? "" : $path;
     }
 }
 
