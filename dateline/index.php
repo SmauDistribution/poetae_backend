@@ -20,6 +20,8 @@ class API {
 
             $records[$out["Id"]] = array(
                 "Id" => $out["Id"],
+                "Nome" => $out["Nome"],
+                "Cognome" => $out["Cognome"],
                 "Immagine" => $path
             );
         }
