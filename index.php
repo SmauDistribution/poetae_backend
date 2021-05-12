@@ -13,8 +13,8 @@ class API {
         $data->execute();
 
         while($out = $data->fetch(PDO::FETCH_ASSOC)) {
-            $fullname = $out["Nome"].$out["Cognome"];
             $pic = new Pictures();
+            $fullname = $pic->TransformFullname($out["Nome"], $out["Cognome"]);
             $format = $pic->CheckFile($fullname);
             $path = $pic->GetPathFor($fullname);
 

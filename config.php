@@ -38,6 +38,14 @@ class Pictures {
         return $format;
     }
 
+    function TransformFullname($name, $surname) {
+        $name = strtolower($name);
+        $surname = strtolower($surname);
+        $fullname = $name.$surname;
+        $fullname = str_replace(" ", "", $fullname);
+        return $fullname;
+    }
+
     function GetFileName($fullname) {
         return "Profili/".strtolower($fullname);
     }

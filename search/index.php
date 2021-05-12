@@ -19,6 +19,8 @@ class API {
             $name = strtolower($out["Nome"]);
             $surname = strtolower($out["Cognome"]);
             $picture = new Pictures();
+            
+            $fullname = $picture->TransformFullname($out["Nome"], $out["Cognome"]);
             $path = $picture->GetPathFor($out["Nome"].$out["Cognome"]);
 
             if(strpos($name, $content) === 0 || strpos($surname, $content) === 0) {

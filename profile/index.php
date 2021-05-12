@@ -30,10 +30,9 @@ class API {
 
         while($out = $data->fetch(PDO::FETCH_ASSOC)) {
 
-            $name = strtolower($out["Nome"]);
-            $surname = strtolower($out["Cognome"]);
             $picture = new Pictures();
-            $path = $picture->GetPathFor(($out["Nome"].$out["Cognome"]));
+            $fullname = $picture->TransformFullname($out["Nome"], $out["Cognome"]);
+            $path = $picture->GetPathFor($fullname);
             $percorsi = $this->GetPaths($db, $id);
 
             $records[$out["Id"]] = array(
