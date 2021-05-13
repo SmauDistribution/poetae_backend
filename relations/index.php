@@ -8,8 +8,16 @@ class API {
 
     private function GetSubprofilesFor($id, $db) {
         $relations = array();
-        $data = $db->prepare("SELECT * FROM Profilo, Relazione WHERE  Profilo1 = :id AND Profilo2 = Profilo.Id");
-        $data->execute(["id" => $id]);
+
+        //Fai la join dei profili2 di tutti i profili1
+        $relation = "SELECT Profilo.* FROM Profilo, Relazione WHERE Profilo1 = :id  AND (Profilo2 = Profilo.Id)";
+        
+        //Fai la join dei profili1 di tutti i profili2
+        $inverse_relation = "SELECT Profilo.* FROM Profilo, Relazione WHERE Profilo2 = :inverse_id AND (Profilo1 = Profilo.Id)";
+        $query = $relation." UNION ".$inverse_relation; //Unisci query
+
+        $data = $db->prepare($query);
+        $data->execute(["id" => $id, "inverse_id" => $id]);
         while($profile = $data->fetch(PDO::FETCH_ASSOC)) {
 
             $picture = new Pictures();
