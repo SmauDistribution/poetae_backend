@@ -11,10 +11,16 @@ class API {
         $data = $db->prepare("SELECT * FROM Profilo, Relazione WHERE  Profilo1 = :id AND Profilo2 = Profilo.Id");
         $data->execute(["id" => $id]);
         while($profile = $data->fetch(PDO::FETCH_ASSOC)) {
+
+            $picture = new Pictures();
+            $fullname = $picture->TransformFullname($profile["Nome"], $profile["Cognome"]);
+            $path = $picture->GetPathFor($fullname);
+
             $relations[$profile["Id"]] = array(
                 "Id" => $profile["Id"],
                 "Nome" => $profile["Nome"],
-                "Cognome" => $profile["Cognome"]
+                "Cognome" => $profile["Cognome"],
+                "Immagine" => $path
             );
         }
 
@@ -40,10 +46,6 @@ class API {
                 "Id" => $out["Id"],
                 "Nome" => $out["Nome"],
                 "Cognome" => $out["Cognome"],
-                "Biografia" => $out["Biografia"],
-                "Nascita" => $out["Nascita"],
-                "Morte" => $out["Morte"],
-                "LuogoNascita" => $out["LuogoNascita"],
                 "Immagine" => $path,
                 "Relazioni" => $relations
             );
