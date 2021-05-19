@@ -27,7 +27,8 @@ class API {
             if($this->Match($out, $content)) {
                 $records[$out["Id"]] = array(
                     "Id" => $out["Id"],
-                    "Titolo" => $out["Titolo"]
+                    "Titolo" => $out["Titolo"],
+                    "Descrizione" => $out["Descrizione"]
                 );
             }
         }
