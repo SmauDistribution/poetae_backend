@@ -5,6 +5,9 @@ require_once("../config.php");
 */
 
 class API {
+    /// <SUMMARY>
+    /// Ottengo i percorsi di un profilo
+    /// </SUMMARY>
     private function GetPaths($db, $id) {
         $percorsi = array();
         $data = $db->prepare("SELECT Percorso.Id, Descrizione FROM Percorsi, Percorso WHERE Percorsi.Profilo = :id AND Percorsi.Percorso = Percorso.Id");

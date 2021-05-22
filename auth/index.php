@@ -10,7 +10,7 @@ class API {
         
         $user = new User();
         if($user->AuthBy($token) == false) {
-            http_response_code(403);
+            http_response_code(403); //Non autorizzato
             return "";
         }
 

@@ -5,6 +5,9 @@ require_once("../../config.php");
 */
 
 class API {
+    /// <SUMMARY>
+    /// Controlla se è gia presente un segnalibro nel db
+    /// </SUMMARY>
     private function AlreadyExists($db, $id, $poem) {
         $data = $db->prepare("SELECT Id FROM Segnalibri WHERE Poesia = :poem AND Utente = :id");
         $data->execute(["id" => $id, "poem" => $poem]);

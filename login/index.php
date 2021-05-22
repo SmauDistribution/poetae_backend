@@ -12,7 +12,7 @@ class API {
         
         $user = new User();
         if($user->Auth($username, $password) == false) {
-            http_response_code(403);
+            http_response_code(403); //Non autorizzato
             return "";
         }
 

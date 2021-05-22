@@ -5,14 +5,6 @@ require_once("../../config.php");
 */
 
 class API {
-    private function AlreadyExists($db, $id, $poem) {
-        $data = $db->prepare("SELECT Id FROM Segnalibri WHERE Poesia = :poem AND Utente = :id");
-        $data->execute(["id" => $id, "poem" => $poem]);
-        $res = $data->fetchAll(PDO::FETCH_ASSOC);
-
-        return count($res) > 0;
-    }
-
     function Get() {
         $db = new Connect;
         $token = apache_request_headers()["Token"];

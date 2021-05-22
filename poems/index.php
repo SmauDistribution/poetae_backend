@@ -24,7 +24,10 @@ class API {
         return $records;
     }
 
-    private function GetProfile($id, $db) {
+    /// <SUMMARY>
+    /// Ottengo la poesia specificata dall' id
+    /// </SUMMARY>
+    private function GetPoemsBy($id, $db) {
         $records = array();
         $data = $db->prepare("SELECT Poesia.*, Profilo.Nome, Profilo.Cognome FROM Poesia, Profilo WHERE Poesia.Id = :id AND Poesia.Autore = Profilo.Id");
         $data->execute(["id" => $id]);
@@ -53,13 +56,14 @@ class API {
         $db = new Connect;
         $records = array();
         
+        //
         if(isset(apache_request_headers()["Profile"])) {
             $author = apache_request_headers()["Profile"];
             $records = $this->GetPoems($author, $db);
         }
         else {
             $id = apache_request_headers()["id"];
-            $records = $this->GetProfile($id, $db);
+            $records = $this->GetPoemsBy($id, $db);
         }
 
         return json_encode($records);
